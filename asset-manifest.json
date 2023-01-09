@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/diplomProject/static/css/main.cbded6c3.css",
+    "main.js": "/diplomProject/static/js/main.0a4dc239.js",
+    "static/media/alltask.svg": "/diplomProject/static/media/alltask.a862c15f565e11d25259ce5cd343b0e6.svg",
+    "static/media/close.svg": "/diplomProject/static/media/close.ac7b9278cab353907f42c5983ebc5569.svg",
+    "static/media/remove.svg": "/diplomProject/static/media/remove.618167a43b6d4de873ade4ad37891d0d.svg",
+    "static/media/edit.svg": "/diplomProject/static/media/edit.990a1a38705da9161f45cd229821ae27.svg",
+    "index.html": "/diplomProject/index.html",
+    "static/media/plus.svg": "/diplomProject/static/media/plus.bb82cf258224298ee8e8019bff6b7e1c.svg",
+    "main.cbded6c3.css.map": "/diplomProject/static/css/main.cbded6c3.css.map",
+    "main.0a4dc239.js.map": "/diplomProject/static/js/main.0a4dc239.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cbded6c3.css",
+    "static/js/main.0a4dc239.js"
+  ]
+}
