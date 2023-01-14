@@ -199,7 +199,7 @@
       "id": 1,
       "name": "Alex",
       "login": "alex.brio",
-      "role": "Admin",
+      "role": "User",
       "password": "123"
     },
     {
@@ -227,7 +227,7 @@
       "id": 5,
       "name": "Alexander",
       "login": "alexander.maxima",
-      "role": "User",
+      "role": "Admin",
       "password": "1234"
     },
     {
