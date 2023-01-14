@@ -193,5 +193,49 @@
       "hex": "#FF6464",
       "name": "red"
     }
+  ],
+  "user": [
+    {
+      "id": 1,
+      "name": "Alex",
+      "login": "alex.brio",
+      "role": "Admin",
+      "password": "123"
+    },
+    {
+      "id": 2,
+      "name": "Igor",
+      "login": "igor.brio",
+      "role": "User",
+      "password": "1234"
+    },
+    {
+      "id": 3,
+      "name": "Anton",
+      "login": "anton.brio",
+      "role": "User",
+      "password": "1234"
+    },
+    {
+      "id": 4,
+      "name": "Dmitry",
+      "login": "dmitry.brio",
+      "role": "User",
+      "password": "1234"
+    },
+    {
+      "id": 5,
+      "name": "Alexander",
+      "login": "alexander.maxima",
+      "role": "User",
+      "password": "1234"
+    },
+    {
+      "id": 6,
+      "name": "Vadim",
+      "login": "vadims.brio",
+      "role": "User",
+      "password": "1234"
+    }
   ]
 }
