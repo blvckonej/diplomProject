@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Authorization.scss";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Authorization = () => {
   const navigate = useNavigate();
@@ -8,15 +9,30 @@ const Authorization = () => {
   const [inputs, setInputs] = useState({});
 
   const handleChange = (event) => {
+    console.log(event.target.value);
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
   const handleSubmit = (event) => {
+
     event.preventDefault();
-    // alert(inputs);
-    console.log(inputs);
+    let usetAuth = false;
+    axios.get('http://localhost:3001/user').then(({ data }) => {
+      console.log(data);
+      data.map(user => {
+        if (user.login == inputs.login && user.password == inputs.password) {
+          navigate(`/work`);
+          localStorage.setItem('user-id', user.id);
+          usetAuth = true;
+        }
+      })
+      if (!usetAuth) {
+        alert('Такого пользователя нет');
+      }
+    });
+
   };
 
   return (
@@ -36,7 +52,7 @@ const Authorization = () => {
                   type="text"
                   name="login"
                   placeholder="Введите ваш логин"
-                  value={inputs.username || ""}
+                  value={inputs.login || ""}
                   onChange={handleChange}
                 />
 
@@ -48,7 +64,7 @@ const Authorization = () => {
                   type="password"
                   name="password"
                   placeholder="Введите ваш пароль"
-                  value={inputs.age || ""}
+                  value={inputs.password || ""}
                   onChange={handleChange}
                 />
               <input 
