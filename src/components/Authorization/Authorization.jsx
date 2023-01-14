@@ -24,30 +24,33 @@ const Authorization = () => {
       <div className="authorization-wrp">
         <div className="container">
           <div className="authorization-wrp__form">
-            <h1 className="authorization-wrp__title"></h1>
+            <h1 className="authorization-wrp__title">Авторизация</h1>
             <div></div>
 
             <form onSubmit={handleSubmit}>
               <label>
-                Enter your login:
+                Логин
+              </label>
                 <input
                   className="authorization-wrp__user-name"
                   type="text"
                   name="login"
+                  placeholder="Введите ваш логин"
                   value={inputs.username || ""}
                   onChange={handleChange}
                 />
-              </label>
+
               <label>
-                Enter your password:
+                Пароль
+              </label>
                 <input
                   className="authorization-wrp__user-password"
                   type="password"
                   name="password"
+                  placeholder="Введите ваш пароль"
                   value={inputs.age || ""}
                   onChange={handleChange}
                 />
-              </label>
               <input 
                 type="submit"
                 className="authorization-wrp__button-submit"
