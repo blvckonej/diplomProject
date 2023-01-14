@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Authorization.scss";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Authorization = () => {
   const navigate = useNavigate();
@@ -8,15 +9,29 @@ const Authorization = () => {
   const [inputs, setInputs] = useState({});
 
   const handleChange = (event) => {
+    console.log(event.target.value);
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
   const handleSubmit = (event) => {
+
     event.preventDefault();
-    // alert(inputs);
-    console.log(inputs);
+    let usetAuth = false;
+    axios.get('http://localhost:3001/user').then(({ data }) => {
+      console.log(data);
+      data.map(user => {
+        if (user.login == inputs.login && user.password == inputs.password) {
+          alert('Вы авторизовались, ваш id - ' + user.id);
+          usetAuth = true;
+        }
+      })
+      if (!usetAuth) {
+        alert('Такого пользователя нет');
+      }
+    });
+    
   };
 
   return (
@@ -34,7 +49,7 @@ const Authorization = () => {
                   className="authorization-wrp__user-name"
                   type="text"
                   name="login"
-                  value={inputs.username || ""}
+                  value={inputs.login || ""}
                   onChange={handleChange}
                 />
               </label>
@@ -44,7 +59,7 @@ const Authorization = () => {
                   className="authorization-wrp__user-password"
                   type="password"
                   name="password"
-                  value={inputs.age || ""}
+                  value={inputs.password || ""}
                   onChange={handleChange}
                 />
               </label>
