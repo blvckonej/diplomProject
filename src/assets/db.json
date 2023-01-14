@@ -12,78 +12,144 @@
     },
     {
       "id": 5,
-      "name": "Личное",
+      "name": "После 18:00",
       "colorId": 1
     },
     {
-      "name": "Спортики",
-      "colorId": 3,
+      "name": "Программирование",
+      "colorId": 2,
       "id": 6
     },
     {
-      "name": "Книги",
-      "colorId": 1,
+      "name": "Задачи на утро",
+      "colorId": 6,
       "id": 7
     },
     {
-      "name": "фывфывфыв",
-      "colorId": 6,
+      "name": "Диплом",
+      "colorId": 8,
       "id": 8
     },
     {
-      "name": "123123",
+      "name": "BRIO MRS",
       "colorId": 6,
       "id": 9
     }
   ],
   "tasks": [
     {
-      "id": 2,
-      "listId": 2,
-      "text": "Изучить паттерны проектирования",
-      "completed": true
-    },
-    {
-      "id": 3,
-      "listId": 2,
-      "text": "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
-      "completed": false
-    },
-    {
-      "id": 4,
-      "listId": 2,
-      "text": "Redux (redux-observable, redux-saga)",
-      "completed": true
-    },
-    {
-      "listId": 2,
-      "text": "sadasdsadd",
+      "listId": 5,
+      "text": "Погулять с собакой",
       "completed": false,
-      "id": 5
-    },
-    {
-      "listId": 8,
-      "text": "фыфвфывфыв",
-      "completed": false,
-      "id": 6
-    },
-    {
-      "listId": 9,
-      "text": "фывфывфыв",
-      "completed": true,
-      "id": 7
-    },
-    {
-      "listId": 9,
-      "text": "фывфывфы",
-      "completed": true,
       "id": 8
     },
     {
-      "listId": 9,
-      "text": "12313",
-      "completed": false,
+      "listId": 5,
+      "text": "Покормить собаку",
+      "completed": true,
       "id": 9
+    },
+    {
+      "listId": 5,
+      "text": "Распределить задачи на Вторник",
+      "completed": false,
+      "id": 10
+    },
+    {
+      "listId": 6,
+      "text": "Продолжить уроки по JavaScript",
+      "completed": false,
+      "id": 11
+    },
+    {
+      "listId": 6,
+      "text": "Перевести систему на React Router 6",
+      "completed": true,
+      "id": 12
+    },
+    {
+      "listId": 7,
+      "text": "Сделать зарядку",
+      "completed": false,
+      "id": 13
+    },
+    {
+      "listId": 7,
+      "text": "Зарядить телефон",
+      "completed": true,
+      "id": 14
+    },
+    {
+      "listId": 7,
+      "text": "Погулять с собакой",
+      "completed": true,
+      "id": 15
+    },
+    {
+      "listId": 7,
+      "text": "Прогреть машину",
+      "completed": true,
+      "id": 16
+    },
+    {
+      "listId": 8,
+      "text": "Оформить титульный лист по стандартам университета",
+      "completed": false,
+      "id": 18
+    },
+    {
+      "listId": 9,
+      "text": "Сделать deploy приложения1",
+      "completed": true,
+      "id": 19
+    },
+    {
+      "listId": 3,
+      "text": "Фильм: Такси 2",
+      "completed": false,
+      "dataTime": "12.01.2023",
+      "dataHours": "00:59",
+      "id": 37
+    },
+    {
+      "listId": 3,
+      "text": "Мультфильм: Чебурашка",
+      "completed": true,
+      "dataTime": "12.01.2023",
+      "dataHours": "00:59",
+      "id": 38
+    },
+    {
+      "listId": 3,
+      "text": "Сериал: Сталкер",
+      "completed": true,
+      "dataTime": "12.01.2023",
+      "dataHours": "00:59",
+      "id": 39
+    },
+    {
+      "listId": 3,
+      "text": "Фильм: Невидимый гость",
+      "completed": true,
+      "dataTime": "12.01.2023",
+      "dataHours": "00:59",
+      "id": 40
+    },
+    {
+      "listId": 3,
+      "text": "Сериал: Игра престолов",
+      "completed": false,
+      "dataTime": "13.01.2023",
+      "dataHours": "14:07",
+      "id": 41
+    },
+    {
+      "listId": 2,
+      "text": "оророр",
+      "completed": false,
+      "dataTime": "13.01.2023",
+      "dataHours": "15:41",
+      "id": 42
     }
   ],
   "colors": [

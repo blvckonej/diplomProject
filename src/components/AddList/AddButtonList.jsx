@@ -12,7 +12,7 @@ const AddButtonList = ({ colors, onAdd }) => {
     const [visiblePopup, setVisiblePopup] = useState(false);
     const [selectedColor, selectColor] = useState(3);
     const [inputValue, setInputValue] = useState('');
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     
     useEffect(() => {
         if (Array.isArray(colors)) {

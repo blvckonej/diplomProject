@@ -64,7 +64,7 @@ function App() {
           alert('Не удалось удалить задачу')
       });
   }
-  
+
 
   const onRemoveTask = (listId, taskId) => {
     if (window.confirm('Вы действительно хотите удалить задачу?')) {

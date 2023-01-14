@@ -1,13 +1,66 @@
-import React from 'react'
+import { React,  useEffect,  useState } from 'react'
 
-const Task = ({ id, text, onEdit, onRemove, list, onComplete, completed }) => {
+import playBtn from '../../assets/img/play.svg';
+import stopBtn from '../../assets/img/stop.svg';
+import pauseBtn from '../../assets/img/pause.svg';
+import resetBtn from '../../assets/img/reset.svg';
+
+
+const Task = ({ id, text, onEdit, onRemove, list, onComplete, completed, dataTime, dataHours }) => {
 
   const onChangeCheckbox = e => {
     onComplete(list.id, id, e.target.checked)
   }
 
+  const [time, setTime] = useState({ms:0, s: 0, m:0, h:0});
+  const [interv, setInterv] = useState();
+  const [status, setStatus] = useState(0);
+
+  const start = () =>  {
+    run();
+    setStatus(1);
+    setInterv(setInterval(run, 10));
+  };
+
+  let updateMs = time.ms, updateS = time.s, updateM = time.m, updateH = time.h;
+
+  const run = () => {
+    if (updateM === 60) {
+      updateH++;
+      updateM = 0;
+    }
+    if (updateS === 60) {
+      updateM++;
+      updateS = 0;
+      alert('Время на эту задачу закончилось')
+    }
+    if (updateMs === 100) {
+      updateS++;
+      updateMs = 0;
+    }
+    updateMs++;
+    return setTime({ms:updateMs, s: updateS, m:updateM, h:updateH});
+  }
+
+  const stoped = () =>  {
+    clearInterval(interv);
+    setStatus(2);
+  };
+
+  const reset = () =>  {
+    clearInterval(interv);
+    setStatus(0);
+    setTime({ms:0, s: 0, m:0, h:0});
+  };
+
+  const resume = () =>  start();
+
     return (
         <div key={id} className="tasks__items-row">
+          <div className="datatime">
+            <div>{dataTime}</div>
+            <div className="datatime-hours">{dataHours}</div>
+          </div>
         <div className="checkbox">
             <input onChange={onChangeCheckbox} id={`tasks-${id}`} type="checkbox" checked={completed} />
             <label htmlFor={`tasks-${id}`}>
@@ -17,8 +70,46 @@ const Task = ({ id, text, onEdit, onRemove, list, onComplete, completed }) => {
                 </svg>
             </label>
         </div>
-        <p>{text}</p>
+        <p className={`${completed ? 'closed' : 'open'}`}>{text}</p>
+        <div>
+          <span>{(time.h >= 10) ? time.h : "0" + time.h}</span>&nbsp;:&nbsp;        
+          <span>{(time.m >= 10) ? time.m : "0" + time.m}</span>&nbsp;:&nbsp;        
+          <span>{(time.s >= 10) ? time.s : "0" + time.s}</span>   
+        </div>
         <div className="tasks__items-row-actions">
+        {
+          (status === 0) ?
+          <div className="block-btn">
+            <div className="task__items-row-play-btn" onClick={start}>
+              <img src={playBtn} alt="Play button" />
+            </div>
+          </div> : ''
+        }
+        {
+          (status === 1) ? 
+            <div className="block-btn">
+              <div className="task__items-row-stop-btn" onClick={stoped}>
+                <img src={stopBtn} alt="Stop button" />
+              </div>
+              <div className="task__items-row-reset-btn" onClick={reset}>
+                <img src={resetBtn} alt="Reset button" />
+              </div> 
+            </div>
+          : ''      
+        }
+        {
+          (status === 2) ? 
+            <div className="block-btn">
+              <div className="task__items-row-resume-btn" onClick={resume}>
+                <img src={pauseBtn} alt="Stop button" />
+              </div>
+              <div className="task__items-row-reset-btn" onClick={reset}>
+                  <img src={resetBtn} alt="Reset button" />
+              </div>
+            </div>
+          : ''          
+
+        }
         <div onClick={() => onEdit(list.id, { id, text })}>
           <svg
             width="15"

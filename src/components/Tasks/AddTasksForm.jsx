@@ -17,7 +17,9 @@ const AddTasksForm = ({ list, onAddTask }) => {
         const obj = {
             listId: list.id,
             text: inputValue,
-            completed: false
+            completed: false,
+            dataTime: new Date().toLocaleDateString(),
+            dataHours: new Date().toLocaleTimeString().slice(0,-3)
         };
         setIsLoading(true);
         axios

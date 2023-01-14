@@ -74,12 +74,13 @@
                 justify-content: space-between;
                 opacity: 0;
                 transition: opacity 0.15s ease-in-out;
+                margin-left: 10px;
                 div {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    width: 32px;
-                    height: 32px;
+                    min-width: 32px;
+                    min-height: 32px;
                     background-color: lighten(#f4f6f8, 2%);
                     border-radius: 6px;
                     margin-left: 5px;
@@ -154,6 +155,7 @@
     border: none;
     background-color: #4DD599;
     border-radius: 4px;
+    margin-left: 20px;
     &:hover {
         background: darken($color: #4DD599, $amount: 8%);
     }
@@ -195,4 +197,61 @@
     &:focus {
       border-color: #ebebeb;
     }
+  }
+
+  .task__items-row-play-btn {
+    img {
+        width: 20px;
+        height: 20px;
+    }
+  }
+
+  .task__items-row-reset-btn {
+    img {
+        width: 20px;
+        height: 20px;
+    }
+  }
+
+  .task__items-row-resume-btn {
+    img {
+        width: 20px;
+        height: 20px;
+    }
+  }
+
+  .task__items-row-stop-btn {
+    img {
+        width: 20px;
+        height: 20px;
+    }
+  }
+
+  .block-btn {
+  }
+
+  .disable {
+    cursor: not-allowed;
+  }
+
+  .datatime {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 15px;
+    &-hours {
+        margin-top: 5px;
+    }
+  }
+
+  .closed {
+    text-decoration: line-through;
+  }
+
+  .open {
+    text-decoration: none;
+  }
+
+  .played {
+    cursor: not-allowed;
   }

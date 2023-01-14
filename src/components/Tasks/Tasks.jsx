@@ -6,14 +6,14 @@ import AddTasksForm from './AddTasksForm';
 import './Tasks.scss';
 import editSvg from '../../assets/img/edit.svg';
 
-const Tasks = ( { list, onEditTitle, onAddTask, onRemoveTask, onEditTask, onCompleteTask, withoutEmpty } ) => {
+const Tasks = ( { list, onEditTitle, onAddTask, onRemoveTask, onEditTask, onCompleteTask, time, withoutEmpty } ) => {
 
     const editTitle = () => {
         const newTitle = window.prompt('Название списка', list.name);
         if (newTitle) {
             onEditTitle(list.id, newTitle);
             axios.patch('http://localhost:3001/lists/' + list.id, {
-                name: newTitle
+                name: newTitle,
             }).catch(() => {
                 alert('Не удалось обновить заголовок')
             });
@@ -29,8 +29,8 @@ const Tasks = ( { list, onEditTitle, onAddTask, onRemoveTask, onEditTask, onComp
         <div className="tasks__items">
             {!withoutEmpty && list.tasks && !list.tasks.length && <h2>Задачи отсутствуют</h2>}
             {
-               list.tasks && list.tasks.map(task => (
-                    <Task key={task.id} list={list} onRemove={onRemoveTask} onEdit={onEditTask} onComplete={onCompleteTask} {...task}/>
+               list.tasks && list.tasks.map((task, time) => (
+                    <Task key={task.id} list={list} time={time} onRemove={onRemoveTask} onEdit={onEditTask} onComplete={onCompleteTask} {...task}/>
             ))}
         <AddTasksForm key={list.id} list={list} onAddTask={onAddTask} />
         </div>
