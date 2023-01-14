@@ -124,10 +124,10 @@ function App() {
   return (
     <div className="todo">
       <div className="todo__sidebar">
-       <List
-           onClickItem={list => {
+        <List
+          onClickItem={list => {
             navigate(`/`);
-           }}
+          }}
           items={[
         {
           active: location.pathname === `/`,

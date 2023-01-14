@@ -6,13 +6,14 @@ import {
 } from "react-router-dom";
 
 import App from './App';
+import Authorization from './components/Authorization/Authorization';
 
 import './index.scss';
 
 const router = createBrowserRouter([
   {
     path: "/*",
-    element: <App />,
+    element: <Authorization />,
   },
 ]);
 
