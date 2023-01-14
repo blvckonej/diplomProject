@@ -23,7 +23,8 @@ const Authorization = () => {
       console.log(data);
       data.map(user => {
         if (user.login == inputs.login && user.password == inputs.password) {
-          alert('Вы авторизовались, ваш id - ' + user.id);
+          navigate(`/work`);
+          localStorage.setItem('user-id', user.id);
           usetAuth = true;
         }
       })

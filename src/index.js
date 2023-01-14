@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
+  Route,
   RouterProvider,
 } from "react-router-dom";
 
@@ -12,9 +13,13 @@ import './index.scss';
 
 const router = createBrowserRouter([
   {
-    path: "/*",
+    path: "/auth",
     element: <Authorization />,
   },
+  {
+    path: "/*",
+    element: <App />,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
