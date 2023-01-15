@@ -29,7 +29,7 @@ const Tasks = ( { list, onEditTitle, onAddTask, onRemoveTask, onEditTask, onComp
         <div className="tasks__items">
             {!withoutEmpty && list.tasks && !list.tasks.length && <h2>Задачи отсутствуют</h2>}
             {
-               list.tasks && list.tasks.map((task, time) => (
+              list.tasks && list.tasks.map((task, time) => (
                     <Task key={task.id} list={list} time={time} onRemove={onRemoveTask} onEdit={onEditTask} onComplete={onCompleteTask} {...task}/>
             ))}
         <AddTasksForm key={list.id} list={list} onAddTask={onAddTask} />

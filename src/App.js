@@ -15,6 +15,8 @@ function App() {
   const [activeItem, setActiveItem] = useState(null);
   const [role, setRole] = useState("");
   const [statisticUserId, setStatisticUserId] = useState(null);
+  const [statisticListUser, setStatisticListUser] = useState([]);
+  const [time, setTime] = useState({ ms: 0, s: 0, m: 0, h: 0 });
 
   let location = useLocation();
   const navigate = useNavigate();
@@ -46,12 +48,43 @@ function App() {
     }
   }, [role]);
 
-  useEffect(() => {}, [statisticUserId]);
+  useEffect(() => {
+    console.log("statisticUserId,", statisticUserId?.id);
+    axios
+      .get(
+        "http://localhost:3001/lists?_expand=color&_embed=tasks&userId=" +
+          statisticUserId?.id
+      )
+      .then(({ data }) => {
+        if (data.length > 0) {
+          setStatisticListUser(data);
+          console.log(data, "111");
+        } else {
+          setStatisticListUser([]);
+        }
+      });
+  }, [statisticUserId]);
 
   const onAddList = (obj) => {
     const newList = [...lists, obj];
     setLists(newList);
   };
+
+  function getTime(time) {
+    let d = time / (1000 * 60 * 60 * 24),
+      h = (d - ~~d) * 24,
+      m = (h - ~~h) * 60,
+      s = (m - ~~m) * 60;
+    return (
+      <>
+        <span>{h >= 10 ? Math.floor(h) : "0" + Math.floor(h)}</span>
+        &nbsp;:&nbsp;
+        <span>{m >= 10 ? Math.floor(m) : "0" + Math.floor(m)}</span>
+        &nbsp;:&nbsp;
+        <span>{s >= 10 ? Math.floor(s): "0" + Math.floor(s)}</span>
+      </>
+    );
+  }
 
   const onAddTask = (listId, taskObj) => {
     const newList = lists.map((item) => {
@@ -229,6 +262,29 @@ function App() {
               <div>
                 <h1>Статистика - {statisticUserId.name}</h1>
                 <span>{statisticUserId.login}</span>
+                <br />
+                <br />
+                <br />
+                {statisticListUser.map((list) => {
+                  return (
+                    <div key={list.id}>
+                      <h4>{list.name}</h4>-
+                      {list?.tasks.map((task) => {
+                        return (
+                          <div key={task.id}>
+                            <p>
+                              {task.text} - времени на задачу потрачено - 
+                              <b> {getTime(task?.timer?.sumTime)}</b>
+
+                            </p>
+                          </div>
+                        );
+                      })}
+                      <br />
+                      <br />
+                    </div>
+                  );
+                })}
               </div>
             ) : null}
           </div>

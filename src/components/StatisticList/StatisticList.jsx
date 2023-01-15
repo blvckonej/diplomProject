@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import axios from "axios";
 
@@ -17,6 +17,15 @@ const StatisticList = ({ items, setStatisticUserId }) => {
         }
       });
     });
+
+    // axios
+    // .get("http://localhost:3001/lists?userId=" + id)
+    // .then(({ data }) => {
+    //   console.log(data, '/lists/" + 3');
+    //   if (data.length > 0) {
+    //     setStatisticListUser(data)
+    //   }
+    // });
   }
 console.log(items);
   return (

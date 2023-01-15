@@ -26,18 +26,45 @@ const Task = ({
   const [status, setStatus] = useState(0);
   const [startTime, setStartTime] = useState("");
 
-  useEffect(() => {
+  let updateMs = time.ms,
+    updateS = time.s,
+    updateM = time.m,
+    updateH = time.h;
 
-    axios.get("http://localhost:3001/tasks/" + id).then(({data}) => {
-      if (data.timer?.sumTime) {
-       let d = data.timer?.sumTime / (1000 * 60 * 60 * 24),
-            h = (d - ~~d) * 24,
-            m = (h - ~~h) * 60,
-            s = (m - ~~m) * 60
-        setTime({ ms: 0, s: Math.floor(s), m: Math.floor(m), h: Math.floor(h) })
+  useEffect(() => {
+    axios.get("http://localhost:3001/tasks/" + id).then(({ data }) => {
+      if (data.timer?.sumTime && !data.timer?.startTime) {
+        getTime(data.timer?.sumTime);
       }
-    })
-  }, [])
+
+      if (data.timer?.startTime) {
+        setTimeout(() => {
+          let sumTime = new Date() - new Date(data.timer?.startTime) - 200;
+          sumTime = sumTime + data.timer?.sumTime;
+          getTime(sumTime);
+          setStartTime(data.timer?.startTime)
+          start();
+        }, 100);
+      }
+    });
+  }, []);
+
+  function getTime(time) {
+    let d = time / (1000 * 60 * 60 * 24),
+          h = (d - ~~d) * 24,
+          m = (h - ~~h) * 60,
+          s = (m - ~~m) * 60;
+        setTime({
+          ms: 0,
+          s: Math.floor(s),
+          m: Math.floor(m),
+          h: Math.floor(h),
+        });
+        updateMs = 0;
+        updateS = Math.floor(s);
+        updateM = Math.floor(m);
+        updateH = Math.floor(h);
+  }
 
   const start = () => {
     run();
@@ -45,38 +72,30 @@ const Task = ({
     setInterv(setInterval(run, 10));
     list.tasks.map((task) => {
       if (task.id === id) {
-        console.log(task);
         let dateNow = new Date();
         let sumTime = 1;
-        
-        axios.get("http://localhost:3001/tasks/" + id).then(({data}) => {
-          console.log(data.timer.sumTime);
+
+        axios.get("http://localhost:3001/tasks/" + id).then(({ data }) => {
           if (data.timer.sumTime) {
-            console.log(data.timer.sumTime, '---999');
-            sumTime = sumTime + data.timer.sumTime
+            sumTime = sumTime + data.timer.sumTime;
           }
-          console.log(sumTime);
-          axios
-          .patch("http://localhost:3001/tasks/" + id, {
-            timer: { startTime: dateNow, sumTime: sumTime}
-          })
-          .then(({ data }) => {
-            console.log(data, '!!!!!11111!!!!');
-            setStartTime(dateNow)
-          })
-          .catch(() => {
-            alert("Ошибка при добавлении задачи");
-          })
-          .finally(() => {});
-        })
+          if (!data.timer.startTime) {
+            axios
+              .patch("http://localhost:3001/tasks/" + id, {
+                timer: { startTime: dateNow, sumTime: sumTime },
+              })
+              .then(({ data }) => {
+                setStartTime(dateNow);
+              })
+              .catch(() => {
+                alert("Ошибка при добавлении задачи");
+              })
+              .finally(() => {});
+          }
+        });
       }
     });
   };
-
-  let updateMs = time.ms,
-    updateS = time.s,
-    updateM = time.m,
-    updateH = time.h;
 
   const run = () => {
     if (updateM === 60) {
@@ -97,33 +116,25 @@ const Task = ({
   };
 
   const stoped = () => {
-    console.log('stop');
     clearInterval(interv);
     setStatus(2);
     list.tasks.map((task) => {
       if (task.id === id) {
-        console.log(task);
         let sumTime = new Date() - new Date(startTime) - 200;
-        console.log(startTime);
-        axios.get("http://localhost:3001/tasks/" + id).then(({data}) => {
-          console.log(data.timer.sumTime, '====9');
-
+        axios.get("http://localhost:3001/tasks/" + id).then(({ data }) => {
           if (data.timer.sumTime) {
-            console.log(data.timer.sumTime, '====8');
-            sumTime = sumTime + data.timer.sumTime
+            sumTime = sumTime + data.timer.sumTime;
           }
           axios
-          .patch("http://localhost:3001/tasks/" + id, {
-            timer: { startTime: '', sumTime: sumTime},
-          })
-          .then(({ data }) => {
-
-          })
-          .catch(() => {
-            alert("Ошибка при добавлении задачи");
-          })
-          .finally(() => {});
-        })
+            .patch("http://localhost:3001/tasks/" + id, {
+              timer: { startTime: "", sumTime: sumTime },
+            })
+            .then(({ data }) => {})
+            .catch(() => {
+              alert("Ошибка при добавлении задачи");
+            })
+            .finally(() => {});
+        });
       }
     });
   };
