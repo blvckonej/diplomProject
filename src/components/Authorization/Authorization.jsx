@@ -9,7 +9,6 @@ const Authorization = () => {
   const [inputs, setInputs] = useState({});
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
@@ -20,9 +19,8 @@ const Authorization = () => {
     event.preventDefault();
     let usetAuth = false;
     axios.get('http://localhost:3001/user').then(({ data }) => {
-      console.log(data);
       data.map(user => {
-        if (user.login == inputs.login && user.password == inputs.password) {
+        if (user.login === inputs.login && user.password === inputs.password) {
           navigate(`/work`);
           localStorage.setItem('user-id', user.id);
           usetAuth = true;

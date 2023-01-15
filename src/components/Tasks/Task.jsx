@@ -1,28 +1,82 @@
-import { React,  useEffect,  useState } from 'react'
+import { React, useEffect, useState } from "react";
 
-import playBtn from '../../assets/img/play.svg';
-import stopBtn from '../../assets/img/stop.svg';
-import pauseBtn from '../../assets/img/pause.svg';
-import resetBtn from '../../assets/img/reset.svg';
+import playBtn from "../../assets/img/play.svg";
+import stopBtn from "../../assets/img/stop.svg";
+import pauseBtn from "../../assets/img/pause.svg";
+import resetBtn from "../../assets/img/reset.svg";
+import axios from "axios";
 
+const Task = ({
+  id,
+  text,
+  onEdit,
+  onRemove,
+  list,
+  onComplete,
+  completed,
+  dataTime,
+  dataHours,
+}) => {
+  const onChangeCheckbox = (e) => {
+    onComplete(list.id, id, e.target.checked);
+  };
 
-const Task = ({ id, text, onEdit, onRemove, list, onComplete, completed, dataTime, dataHours }) => {
-
-  const onChangeCheckbox = e => {
-    onComplete(list.id, id, e.target.checked)
-  }
-
-  const [time, setTime] = useState({ms:0, s: 0, m:0, h:0});
+  const [time, setTime] = useState({ ms: 0, s: 0, m: 0, h: 0 });
   const [interv, setInterv] = useState();
   const [status, setStatus] = useState(0);
+  const [startTime, setStartTime] = useState("");
 
-  const start = () =>  {
+  useEffect(() => {
+
+    axios.get("http://localhost:3001/tasks/" + id).then(({data}) => {
+      if (data.timer?.sumTime) {
+       let d = data.timer?.sumTime / (1000 * 60 * 60 * 24),
+            h = (d - ~~d) * 24,
+            m = (h - ~~h) * 60,
+            s = (m - ~~m) * 60
+        setTime({ ms: 0, s: Math.floor(s), m: Math.floor(m), h: Math.floor(h) })
+      }
+    })
+  }, [])
+
+  const start = () => {
     run();
     setStatus(1);
     setInterv(setInterval(run, 10));
+    list.tasks.map((task) => {
+      if (task.id === id) {
+        console.log(task);
+        let dateNow = new Date();
+        let sumTime = 1;
+        
+        axios.get("http://localhost:3001/tasks/" + id).then(({data}) => {
+          console.log(data.timer.sumTime);
+          if (data.timer.sumTime) {
+            console.log(data.timer.sumTime, '---999');
+            sumTime = sumTime + data.timer.sumTime
+          }
+          console.log(sumTime);
+          axios
+          .patch("http://localhost:3001/tasks/" + id, {
+            timer: { startTime: dateNow, sumTime: sumTime}
+          })
+          .then(({ data }) => {
+            console.log(data, '!!!!!11111!!!!');
+            setStartTime(dateNow)
+          })
+          .catch(() => {
+            alert("Ошибка при добавлении задачи");
+          })
+          .finally(() => {});
+        })
+      }
+    });
   };
 
-  let updateMs = time.ms, updateS = time.s, updateM = time.m, updateH = time.h;
+  let updateMs = time.ms,
+    updateS = time.s,
+    updateM = time.m,
+    updateH = time.h;
 
   const run = () => {
     if (updateM === 60) {
@@ -32,84 +86,127 @@ const Task = ({ id, text, onEdit, onRemove, list, onComplete, completed, dataTim
     if (updateS === 60) {
       updateM++;
       updateS = 0;
-      alert('Время на эту задачу закончилось')
+      alert("Время на эту задачу закончилось");
     }
     if (updateMs === 100) {
       updateS++;
       updateMs = 0;
     }
     updateMs++;
-    return setTime({ms:updateMs, s: updateS, m:updateM, h:updateH});
-  }
+    return setTime({ ms: updateMs, s: updateS, m: updateM, h: updateH });
+  };
 
-  const stoped = () =>  {
+  const stoped = () => {
+    console.log('stop');
     clearInterval(interv);
     setStatus(2);
+    list.tasks.map((task) => {
+      if (task.id === id) {
+        console.log(task);
+        let sumTime = new Date() - new Date(startTime) - 200;
+        console.log(startTime);
+        axios.get("http://localhost:3001/tasks/" + id).then(({data}) => {
+          console.log(data.timer.sumTime, '====9');
+
+          if (data.timer.sumTime) {
+            console.log(data.timer.sumTime, '====8');
+            sumTime = sumTime + data.timer.sumTime
+          }
+          axios
+          .patch("http://localhost:3001/tasks/" + id, {
+            timer: { startTime: '', sumTime: sumTime},
+          })
+          .then(({ data }) => {
+
+          })
+          .catch(() => {
+            alert("Ошибка при добавлении задачи");
+          })
+          .finally(() => {});
+        })
+      }
+    });
   };
 
-  const reset = () =>  {
+  const reset = () => {
     clearInterval(interv);
     setStatus(0);
-    setTime({ms:0, s: 0, m:0, h:0});
+    setTime({ ms: 0, s: 0, m: 0, h: 0 });
   };
 
-  const resume = () =>  start();
+  const resume = () => start();
 
-    return (
-        <div key={id} className="tasks__items-row">
-          <div className="datatime">
-            <div>{dataTime}</div>
-            <div className="datatime-hours">{dataHours}</div>
-          </div>
-        <div className="checkbox">
-            <input onChange={onChangeCheckbox} id={`tasks-${id}`} type="checkbox" checked={completed} />
-            <label htmlFor={`tasks-${id}`}>
-                <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001" 
-                          stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-            </label>
-        </div>
-        <p className={`${completed ? 'closed' : 'open'}`}>{text}</p>
-        <div>
-          <span>{(time.h >= 10) ? time.h : "0" + time.h}</span>&nbsp;:&nbsp;        
-          <span>{(time.m >= 10) ? time.m : "0" + time.m}</span>&nbsp;:&nbsp;        
-          <span>{(time.s >= 10) ? time.s : "0" + time.s}</span>   
-        </div>
-        <div className="tasks__items-row-actions">
-        {
-          (status === 0) ?
+  return (
+    <div key={id} className="tasks__items-row">
+      <div className="datatime">
+        <div>{dataTime}</div>
+        <div className="datatime-hours">{dataHours}</div>
+      </div>
+      <div className="checkbox">
+        <input
+          onChange={onChangeCheckbox}
+          id={`tasks-${id}`}
+          type="checkbox"
+          checked={completed}
+        />
+        <label htmlFor={`tasks-${id}`}>
+          <svg
+            width="11"
+            height="8"
+            viewBox="0 0 11 8"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001"
+              stroke="white"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </label>
+      </div>
+      <p className={`${completed ? "closed" : "open"}`}>{text}</p>
+      <div>
+        <span>{time.h >= 10 ? time.h : "0" + time.h}</span>&nbsp;:&nbsp;
+        <span>{time.m >= 10 ? time.m : "0" + time.m}</span>&nbsp;:&nbsp;
+        <span>{time.s >= 10 ? time.s : "0" + time.s}</span>
+      </div>
+      <div className="tasks__items-row-actions">
+        {status === 0 ? (
           <div className="block-btn">
             <div className="task__items-row-play-btn" onClick={start}>
               <img src={playBtn} alt="Play button" />
             </div>
-          </div> : ''
-        }
-        {
-          (status === 1) ? 
-            <div className="block-btn">
-              <div className="task__items-row-stop-btn" onClick={stoped}>
-                <img src={stopBtn} alt="Stop button" />
-              </div>
-              <div className="task__items-row-reset-btn" onClick={reset}>
-                <img src={resetBtn} alt="Reset button" />
-              </div> 
+          </div>
+        ) : (
+          ""
+        )}
+        {status === 1 ? (
+          <div className="block-btn">
+            <div className="task__items-row-stop-btn" onClick={stoped}>
+              <img src={stopBtn} alt="Stop button" />
             </div>
-          : ''      
-        }
-        {
-          (status === 2) ? 
-            <div className="block-btn">
-              <div className="task__items-row-resume-btn" onClick={resume}>
-                <img src={pauseBtn} alt="Stop button" />
-              </div>
-              <div className="task__items-row-reset-btn" onClick={reset}>
-                  <img src={resetBtn} alt="Reset button" />
-              </div>
+            <div className="task__items-row-reset-btn" onClick={reset}>
+              <img src={resetBtn} alt="Reset button" />
             </div>
-          : ''          
-
-        }
+          </div>
+        ) : (
+          ""
+        )}
+        {status === 2 ? (
+          <div className="block-btn">
+            <div className="task__items-row-resume-btn" onClick={resume}>
+              <img src={pauseBtn} alt="Stop button" />
+            </div>
+            <div className="task__items-row-reset-btn" onClick={reset}>
+              <img src={resetBtn} alt="Reset button" />
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
         <div onClick={() => onEdit(list.id, { id, text })}>
           <svg
             width="15"
@@ -140,7 +237,7 @@ const Task = ({ id, text, onEdit, onRemove, list, onComplete, completed, dataTim
         </div>
       </div>
     </div>
-    )
-}
+  );
+};
 
-export default Task
+export default Task;

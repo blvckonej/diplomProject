@@ -8,7 +8,6 @@ import './List.scss';
 import removeImg from '../../assets/img/remove.svg';
 
 const List = ({ items, isRemovable, onClick, onRemove, onClickItem, activeItem }) => {
-
     const removeList = (item) => {
         if (window.confirm('Вы действительно хотите удалить список ?')) {
             axios.delete('http://localhost:3001/lists/' + item.id).then(() => {

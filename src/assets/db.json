@@ -41,67 +41,101 @@
       "listId": 5,
       "text": "Погулять с собакой",
       "completed": false,
-      "id": 8
+      "id": 8,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 5,
       "text": "Покормить собаку",
       "completed": true,
-      "id": 9
+      "id": 9,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 5,
       "text": "Распределить задачи на Вторник",
       "completed": false,
-      "id": 10
+      "id": 10,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 6,
       "text": "Продолжить уроки по JavaScript",
       "completed": false,
-      "id": 11
+      "id": 11,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 6,
       "text": "Перевести систему на React Router 6",
       "completed": true,
-      "id": 12
+      "id": 12,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 7,
       "text": "Сделать зарядку",
       "completed": false,
-      "id": 13
+      "id": 13,
+      "timer": {
+        "startTime": "",
+        "sumTime": 4141
+      }
     },
     {
       "listId": 7,
       "text": "Зарядить телефон",
       "completed": true,
-      "id": 14
-    },
-    {
-      "listId": 7,
-      "text": "Погулять с собакой",
-      "completed": true,
-      "id": 15
+      "id": 14,
+      "timer": {
+        "startTime": "",
+        "sumTime": 12655
+      }
     },
     {
       "listId": 7,
       "text": "Прогреть машину",
       "completed": true,
-      "id": 16
+      "id": 16,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 8,
       "text": "Оформить титульный лист по стандартам университета",
       "completed": false,
-      "id": 18
+      "id": 18,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 9,
       "text": "Сделать deploy приложения1",
       "completed": true,
-      "id": 19
+      "id": 19,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 3,
@@ -109,7 +143,11 @@
       "completed": false,
       "dataTime": "12.01.2023",
       "dataHours": "00:59",
-      "id": 37
+      "id": 37,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 3,
@@ -117,7 +155,11 @@
       "completed": true,
       "dataTime": "12.01.2023",
       "dataHours": "00:59",
-      "id": 38
+      "id": 38,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 3,
@@ -125,7 +167,11 @@
       "completed": true,
       "dataTime": "12.01.2023",
       "dataHours": "00:59",
-      "id": 39
+      "id": 39,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 3,
@@ -133,7 +179,11 @@
       "completed": true,
       "dataTime": "12.01.2023",
       "dataHours": "00:59",
-      "id": 40
+      "id": 40,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 3,
@@ -141,7 +191,11 @@
       "completed": false,
       "dataTime": "13.01.2023",
       "dataHours": "14:07",
-      "id": 41
+      "id": 41,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     },
     {
       "listId": 2,
@@ -149,7 +203,11 @@
       "completed": false,
       "dataTime": "13.01.2023",
       "dataHours": "15:41",
-      "id": 42
+      "id": 42,
+      "timer": {
+        "startTime": "",
+        "sumTime": 0
+      }
     }
   ],
   "colors": [
@@ -199,43 +257,67 @@
       "id": 1,
       "name": "Alex",
       "login": "alex.brio",
-      "role": "User",
-      "password": "123"
+      "role": "USER",
+      "password": "123",
+      "timer": {
+        "startTime": "",
+        "endTime": ""
+      }
     },
     {
       "id": 2,
       "name": "Igor",
       "login": "igor.brio",
-      "role": "User",
-      "password": "1234"
+      "role": "USER",
+      "password": "1234",
+      "timer": {
+        "startTime": "",
+        "endTime": ""
+      }
     },
     {
       "id": 3,
       "name": "Anton",
       "login": "anton.brio",
-      "role": "User",
-      "password": "1234"
+      "role": "USER",
+      "password": "1234",
+      "timer": {
+        "startTime": "",
+        "endTime": ""
+      }
     },
     {
       "id": 4,
       "name": "Dmitry",
       "login": "dmitry.brio",
-      "role": "User",
-      "password": "1234"
+      "role": "USER",
+      "password": "1234",
+      "timer": {
+        "startTime": "",
+        "endTime": ""
+      }
     },
     {
       "id": 5,
-      "name": "Alexander",
+      "name": " test",
       "login": "alexander.maxima",
-      "role": "Admin",
-      "password": "1234"
+      "role": "ADMIN",
+      "password": "1234",
+      "timer": {
+        "startTime": "",
+        "endTime": ""
+      }
     },
     {
       "id": 6,
       "name": "Vadim",
       "login": "vadims.brio",
-      "role": "User",
-      "password": "1234"
+      "role": "USER",
+      "password": "1234",
+      "timer": {
+        "startTime": "",
+        "endTime": ""
+      }
     }
   ]
 }

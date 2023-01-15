@@ -7,28 +7,46 @@ import AddListButton from "./components/AddList/AddButtonList";
 import Tasks from "./components/Tasks/Tasks";
 
 import alltask from "./assets/img/alltask.svg";
+import StatisticList from "./components/StatisticList/StatisticList";
 
 function App() {
   const [lists, setLists] = useState(null);
   const [colors, setColors] = useState(null);
   const [activeItem, setActiveItem] = useState(null);
+  const [role, setRole] = useState("");
+  const [statisticUserId, setStatisticUserId] = useState(null);
+
   let location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     const userIdFromStorage = localStorage.getItem("user-id");
     if (!userIdFromStorage) {
-      navigate('/auth')
+      navigate("/auth");
     }
-    axios
-      .get("http://localhost:3001/lists?_expand=color&_embed=tasks")
-      .then(({ data }) => {
-        setLists(data);
+    axios.get("http://localhost:3001/user").then(({ data }) => {
+      data.map((user) => {
+        if (user.id == userIdFromStorage) {
+          setRole(user.role);
+          if (user.role === "ADMIN") {
+            setLists(data);
+          }
+        }
       });
-    axios.get("http://localhost:3001/colors").then(({ data }) => {
-      setColors(data);
     });
-  }, []);
+    if (role === "USER") {
+      axios
+        .get("http://localhost:3001/lists?_expand=color&_embed=tasks")
+        .then(({ data }) => {
+          setLists(data);
+        });
+      axios.get("http://localhost:3001/colors").then(({ data }) => {
+        setColors(data);
+      });
+    }
+  }, [role]);
+
+  useEffect(() => {}, [statisticUserId]);
 
   const onAddList = (obj) => {
     const newList = [...lists, obj];
@@ -127,74 +145,94 @@ function App() {
   return (
     <div className="todo">
       <div className="todo__sidebar">
-        <List
-          onClickItem={(list) => {
-            navigate(`/`);
-          }}
-          items={[
-            {
-              active: location.pathname === `/`,
-              icon: <img src={alltask} alt="List icon" />,
-              name: "Все задачи",
-            },
-          ]}
-        />
-        {lists ? (
-          <List
-            items={lists}
-            onRemove={(id) => {
-              const newLists = lists.filter((item) => item.id !== id);
-              setLists(newLists);
-            }}
-            onClickItem={(list) => {
-              navigate(`/lists/${list.id}`);
-            }}
-            activeItem={activeItem}
-            isRemovable
-          />
+        {role === "USER" ? (
+          <>
+            <List
+              onClickItem={(list) => {
+                navigate(`/`);
+              }}
+              items={[
+                {
+                  active: location.pathname === `/`,
+                  icon: <img src={alltask} alt="List icon" />,
+                  name: "Все задачи",
+                },
+              ]}
+            />
+            {lists ? (
+              <List
+                items={lists}
+                onRemove={(id) => {
+                  const newLists = lists.filter((item) => item.id !== id);
+                  setLists(newLists);
+                }}
+                onClickItem={(list) => {
+                  navigate(`/lists/${list.id}`);
+                }}
+                activeItem={activeItem}
+                isRemovable
+              />
+            ) : (
+              "Загрузка..."
+            )}
+            <AddListButton onAdd={onAddList} colors={colors} />
+          </>
         ) : (
-          "Загрузка..."
+          <StatisticList
+            items={lists}
+            setStatisticUserId={setStatisticUserId}
+          />
         )}
-        <AddListButton onAdd={onAddList} colors={colors} />
       </div>
       <div className="todo__tasks">
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={
-              lists &&
-              lists.map((list) => (
-                <Tasks
-                  key={list.id}
-                  list={list}
-                  onAddTask={onAddTask}
-                  onEditTitle={onEditListTitle}
-                  onRemoveTask={onRemoveTask}
-                  onEditTask={onEditTask}
-                  onCompleteTask={onCompleteTask}
-                  withoutEmpty
-                />
-              ))
-            }
-          />
-          <Route
-            path="lists/:id"
-            element={
-              lists &&
-              activeItem && (
-                <Tasks
-                  list={activeItem}
-                  onAddTask={onAddTask}
-                  onEditTitle={onEditListTitle}
-                  onRemoveTask={onRemoveTask}
-                  onEditTask={onEditTask}
-                  onCompleteTask={onCompleteTask}
-                />
-              )
-            }
-          />
-        </Routes>
+        {role === "USER" ? (
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                lists &&
+                lists.map((list) => (
+                  <Tasks
+                    key={list.id}
+                    list={list}
+                    onAddTask={onAddTask}
+                    onEditTitle={onEditListTitle}
+                    onRemoveTask={onRemoveTask}
+                    onEditTask={onEditTask}
+                    onCompleteTask={onCompleteTask}
+                    withoutEmpty
+                  />
+                ))
+              }
+            />
+            <Route
+              path="lists/:id"
+              element={
+                lists &&
+                activeItem && (
+                  <Tasks
+                    list={activeItem}
+                    onAddTask={onAddTask}
+                    onEditTitle={onEditListTitle}
+                    onRemoveTask={onRemoveTask}
+                    onEditTask={onEditTask}
+                    onCompleteTask={onCompleteTask}
+                  />
+                )
+              }
+            />
+          </Routes>
+        ) : (
+          <div>
+            {statisticUserId ? (
+              <div>
+                <h1>Статистика - {statisticUserId.name}</h1>
+                <span>{statisticUserId.login}</span>
+              </div>
+            ) : null}
+          </div>
+        )}
       </div>
     </div>
   );
