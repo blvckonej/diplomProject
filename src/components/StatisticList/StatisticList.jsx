@@ -17,15 +17,6 @@ const StatisticList = ({ items, setStatisticUserId }) => {
         }
       });
     });
-
-    // axios
-    // .get("http://localhost:3001/lists?userId=" + id)
-    // .then(({ data }) => {
-    //   console.log(data, '/lists/" + 3');
-    //   if (data.length > 0) {
-    //     setStatisticListUser(data)
-    //   }
-    // });
   }
 console.log(items);
   return (

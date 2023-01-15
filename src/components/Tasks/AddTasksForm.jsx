@@ -19,7 +19,11 @@ const AddTasksForm = ({ list, onAddTask }) => {
             text: inputValue,
             completed: false,
             dataTime: new Date().toLocaleDateString(),
-            dataHours: new Date().toLocaleTimeString().slice(0,-3)
+            dataHours: new Date().toLocaleTimeString().slice(0,-3),
+            timer: {
+              "startTime": "",
+              "sumTime": 0
+            }
         };
         setIsLoading(true);
         axios

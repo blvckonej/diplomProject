@@ -17,12 +17,14 @@ function App() {
   const [statisticUserId, setStatisticUserId] = useState(null);
   const [statisticListUser, setStatisticListUser] = useState([]);
   const [time, setTime] = useState({ ms: 0, s: 0, m: 0, h: 0 });
+  const [userId, setUserId] = useState(null);
 
   let location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     const userIdFromStorage = localStorage.getItem("user-id");
+    setUserId(userIdFromStorage)
     if (!userIdFromStorage) {
       navigate("/auth");
     }
@@ -208,7 +210,7 @@ function App() {
             ) : (
               "Загрузка..."
             )}
-            <AddListButton onAdd={onAddList} colors={colors} />
+            <AddListButton onAdd={onAddList} colors={colors} id={userId}/>
           </>
         ) : (
           <StatisticList

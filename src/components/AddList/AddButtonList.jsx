@@ -8,7 +8,7 @@ import addfolder from '../../assets/img/plus.svg'
 import closePopup from '../../assets/img/close.svg'
 
 
-const AddButtonList = ({ colors, onAdd }) => {
+const AddButtonList = ({ colors, onAdd, id }) => {
     const [visiblePopup, setVisiblePopup] = useState(false);
     const [selectedColor, selectColor] = useState(3);
     const [inputValue, setInputValue] = useState('');
@@ -32,7 +32,7 @@ const AddButtonList = ({ colors, onAdd }) => {
             return;
         }
         setIsLoading(true);
-        axios.post('http://localhost:3001/lists', { name: inputValue, colorId: selectedColor }).then(({ data }) => {
+        axios.post('http://localhost:3001/lists', { name: inputValue, colorId: selectedColor, userId: id }).then(({ data }) => {
             const color = colors.filter(c => c.id === selectedColor)[0];
             const listObj = { ...data, color, tasks: []};
             onAdd(listObj);
